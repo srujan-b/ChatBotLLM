@@ -1,5 +1,5 @@
 import sys
-from app.core import logging
+from fastapi import HTTPException
 
 class LlmAppException(Exception):
 
@@ -16,4 +16,16 @@ class LlmAppException(Exception):
         return "Error occured in python script name[{0}] Line number[{1}] error message[{2}]".format(
             self.file_name,self.line_no,self.error_message
         )
+
+class ImageProcessingError(HTTPException):
+
+    def __init__(self,detail= "Image Processing Error"):
+        super().__init__(status_code = 400, detail = detail)
+
+class ModelInferencingError(HTTPException):
+
+    def __init__(self,detail = "Model Inferencing Error"):
+        super().__init__(status_code = 500, detail = detail)
+
+
     

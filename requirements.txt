@@ -1,0 +1,13 @@
+langchain-community
+python-dotenv
+fastapi
+opencv-python
+pymongo
+pymongo[srv]==3.6
+pyaml
+numpy
+uvicorn
+
+
+
+## -e.
