@@ -5,16 +5,16 @@ import cv2
 import io
 import numpy as np
 import sys
-from app.core import settings
+from app.constants import  VISION_MODEL_NAME
 from app.exceptions import LlmAppException
-from app.core import logging
+from app.logging import logging
 
 class VisionModel:
 
     def __init__(self):
         try:
-            self.llm = ChatOllama(model = settings.MODEL_NAME)
-            logging.info(f"Llama vision model {settings.MODEL_NAME} initiated sucessfully ")
+            self.llm = ChatOllama(model = VISION_MODEL_NAME)
+            logging.info(f"Llama vision model {VISION_MODEL_NAME} initiated sucessfully ")
 
         except Exception as e:
             logging.error(f"Failed to initilize Llama Model: {e}")
@@ -52,7 +52,7 @@ class VisionModel:
             )
 
             response = self.llm([message])
-            logging.info(f"Sucessfully generated respoanse from {settings.MODEL_NAME}")
+            logging.info(f"Sucessfully generated respoanse from {VISION_MODEL_NAME}")
 
             return response.content
         
