@@ -2,6 +2,7 @@ import uvicorn
 import cv2
 from app.services.vision_services import VisionModelServices
 from app.exceptions import LlmAppException
+import sys
 
 if __name__ == "__main__":
 
@@ -10,7 +11,7 @@ if __name__ == "__main__":
 
         service = VisionModelServices()
 
-        image_path = "/Scenary.jpg"
+        image_path = "/root/ChatBotLLM/Scenary.jpg"
 
         with open(image_path,"rb") as img_file:
 
@@ -20,4 +21,5 @@ if __name__ == "__main__":
 
             print("\n Generated o/p :\n", output)
             
-            
+    except Exception as e:
+        raise LlmAppException(e,sys)         

@@ -1,7 +1,7 @@
 import cv2
-from models import VisionModel
-from core import logging
-from exceptions import LlmAppException,ImageProcessingError,ModelInferencingError
+from app.models import VisionModel
+from app.logging import logging
+from app.exceptions import LlmAppException,ImageProcessingError,ModelInferencingError
 import sys
 
 class VisionModelServices:
@@ -21,8 +21,8 @@ class VisionModelServices:
             logging.info("Strting image processing and model inferencing")
 
             # step 1: load the image
-
-            image = cv2.imload(image_file)
+            logging.info(image_file)
+            image = cv2.imread(image_file)
             image_rgb = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
 
             logging.info("Image Loaded and converted to RGB")
