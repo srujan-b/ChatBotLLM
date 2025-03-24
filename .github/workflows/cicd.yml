@@ -21,8 +21,8 @@ jobs:
 
     - name: Build the Docker image
       run: |
-        docker build -f ./docker/DockerFile -t ${{ secrets.DOCKER_USERNAME }}/dermachatbotv2:latest .
+        docker build -f ./docker/DockerFile -t ${{ secrets.DOCKER_USERNAME }}/dermachatbotv1:latest .
 
     - name: Push the Docker image to Docker Hub
       run: |
-        docker push ${{ secrets.DOCKER_USERNAME }}/dermachatbotv2:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/dermachatbotv1:latest
