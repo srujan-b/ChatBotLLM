@@ -2,7 +2,10 @@
 FROM python:3.10-slim
 
 #Install dependiencies (curl for ollama)
-RUN apt-get update && apt-get install -y curl && apt-get clean
+RUN apt-get update && apt-get install -y \
+curl \
+libgl1-mesa-glx \
+&& apt-get clean
 
 # Install Ollama
 RUN curl -fsSL https://ollama.com/install.sh | sh
