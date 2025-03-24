@@ -1,14 +1,20 @@
 document.getElementById('analyze-form').addEventListener('submit', async (e) => {
     e.preventDefault();
   
+    const submitBtn = document.getElementById('submit-btn');
+    const loading = document.getElementById('loading');
+    const resultDiv = document.getElementById('result');
+  
+    submitBtn.disabled = true;
+    loading.style.display = 'block';
+    resultDiv.innerText = '';
+  
     const formData = new FormData();
     formData.append('user_answers', document.getElementById('user_answers').value);
     formData.append('image', document.getElementById('image').files[0]);
   
-    document.getElementById('result').innerText = 'Processing...';
-  
     try {
-      const response = await fetch('http://<YOUR_PUBLIC_IP>:1021/v1/analyze', {
+      const response = await fetch('http://<YOUR-RUNPOD-IP>:1021/v1/analyze', {
         method: 'POST',
         body: formData
       });
@@ -17,11 +23,18 @@ document.getElementById('analyze-form').addEventListener('submit', async (e) => 
   
       const data = await response.json();
   
-      document.getElementById('result').innerText = 
-        `Question Model:\n${data.question_model_analysis}\n\nVision Model:\n${data.vision_model_analysis}`;
+      resultDiv.innerText = `Vision Model:\n${data.vision_model_analysis}`;
   
     } catch (error) {
-      document.getElementById('result').innerText = `Failed: ${error}`;
+      resultDiv.innerText = `Failed: ${error}`;
+    } finally {
+      submitBtn.disabled = false;
+      loading.style.display = 'none';
     }
+  });
+  
+  // GP Button (Optional functionality)
+  document.getElementById('connect-gp-btn').addEventListener('click', () => {
+    alert('You will be connected to a GP shortly!');
   });
   
