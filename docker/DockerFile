@@ -20,8 +20,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 #Expose ports
-EXPOSE 8000 # FastApi
-EXPOSE 11434 # Ollama API
+# Expose FastAPI port
+EXPOSE 8000
+
+# Expose Ollama API port
+EXPOSE 11434 
 
 #start Ollama daemon + fast api
 CMD ollama serve & uvicorn main:app --host 0.0.0.0 --port 8000
