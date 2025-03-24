@@ -8,7 +8,7 @@ pyaml
 numpy
 uvicorn
 langchain_ollama
-
+python-multipar
 
 
 ## -e.
