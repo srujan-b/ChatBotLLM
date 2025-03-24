@@ -3,6 +3,7 @@ from app.models import VisionModel
 from app.logging import logging
 from app.exceptions import LlmAppException,ImageProcessingError,ModelInferencingError
 import sys
+from app.instructions import VISION_INSTRUCTIONS
 
 class VisionModelServices:
 
@@ -15,7 +16,7 @@ class VisionModelServices:
             logging.error(f"Error initilizing Vision Service : {e}")
             raise LlmAppException(e,sys)
     
-    def process_request(self, image_file, promt: str) -> str:
+    def process_request(self, image_file, prompt: str , instructions: str = VISION_INSTRUCTIONS) -> str:
 
         try:
             logging.info("Strting image processing and model inferencing")
@@ -29,7 +30,7 @@ class VisionModelServices:
 
             # step2 : pass the model
 
-            response = self.model.get_response(promt,image_rgb)
+            response = self.model.get_response(prompt,image_rgb,instructions)
 
             logging.info("Received response from the model")
 

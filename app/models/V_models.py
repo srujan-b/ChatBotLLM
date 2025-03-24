@@ -1,4 +1,5 @@
 from langchain_community.chat_models import ChatOllama
+from langchain.prompts import ChatPromptTemplate
 from langchain.schema.messages import HumanMessage
 import base64
 import cv2
@@ -15,6 +16,12 @@ class VisionModel:
         try:
             self.llm = ChatOllama(model = VISION_MODEL_NAME)
             logging.info(f"Llama vision model {VISION_MODEL_NAME} initiated sucessfully ")
+            
+            self.prompt_template = ChatPromptTemplate.from_messages([
+                ("system", "{instructions}"),
+                ("user", "{questions_prompt}")
+            ])
+
 
         except Exception as e:
             logging.error(f"Failed to initilize Llama Model: {e}")
@@ -39,19 +46,20 @@ class VisionModel:
             logging.error(f"Error encoding the image: {e}")
             raise LlmAppException(e,sys)
 
-    def get_response(self, promt: str, image: np.ndarray) -> str:
+    def get_response(self, questions_prompt: str, image: np.ndarray ,instructions :str) -> str:
 
         try:
             image_b64 = self.encode_image(image)
 
-            message = HumanMessage(
-                content = [
-                    {"type" : "text" , "text": promt},
-                    {"type" : "image_url", "image_url": {"url": f" data:image/jpeg;base64,{image_b64}"}}
-            ]
-            )
+            formatted_prompt = self.prompt_template.format_messages(questions_prompt= questions_prompt , instructions = instructions)
 
-            response = self.llm([message])
+            formatted_prompt.append( HumanMessage(
+                content = [
+                    {"type" : "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"}}
+            ]
+            ))
+
+            response = self.llm.invoke(formatted_prompt)
             logging.info(f"Sucessfully generated respoanse from {VISION_MODEL_NAME}")
 
             return response.content
