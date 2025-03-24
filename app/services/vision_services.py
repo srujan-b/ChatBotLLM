@@ -1,6 +1,6 @@
 import cv2
 from app.models import VisionModel
-from app.logging import logging
+from app.log import logging
 from app.exceptions import LlmAppException,ImageProcessingError,ModelInferencingError
 import sys
 from app.instructions import VISION_INSTRUCTIONS

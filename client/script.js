@@ -14,7 +14,7 @@ document.getElementById('analyze-form').addEventListener('submit', async (e) => 
     formData.append('image', document.getElementById('image').files[0]);
   
     try {
-      const response = await fetch('http://<YOUR-RUNPOD-IP>:1021/v1/analyze', {
+      const response = await fetch('/v1/analyze', {
         method: 'POST',
         body: formData
       });
@@ -23,7 +23,7 @@ document.getElementById('analyze-form').addEventListener('submit', async (e) => 
   
       const data = await response.json();
   
-      resultDiv.innerText = `Vision Model:\n${data.vision_model_analysis}`;
+      resultDiv.innerText = `Based on your Query and Image:\n${data.vision_model_analysis}`;
   
     } catch (error) {
       resultDiv.innerText = `Failed: ${error}`;

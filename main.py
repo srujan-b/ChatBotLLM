@@ -1,37 +1,38 @@
-import uvicorn
-import cv2
-from app.services import VisionModelServices,QuestionServices
-from app.exceptions import LlmAppException
-from app.logging import logging
-import sys
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+import os
 
-if __name__ == "__main__":
+app = FastAPI()
 
-    try:
+# CORS Middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, restrict to specific frontend domain
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
+# Serve static frontend files
+app.mount("/static", StaticFiles(directory="client"), name="static")
 
-        print("Strating main.py")
+# Serve the index.html at root
+@app.get("/")
+async def serve_home():
+    return FileResponse(os.path.join("client", "index.html"))
 
-        question_service = QuestionServices()
+# Include your existing API routers below
+from app.api.v1 import endpoints
 
-        user_answers = "I have achne problem for a long time i have used all kind of medication but is of no use its a serious issue I think i need to consult a doctor"
-        question_output = question_service.analyze_patient_answers(
-        user_answers=user_answers)
-        print("\nQuestion Model Output:\n", question_output)
+app.include_router(endpoints.router)
 
+# Optional startup/shutdown events
+@app.on_event("startup")
+async def startup_event():
+    print("API starting up!")
 
-        vision_service = VisionModelServices()
-
-        image_path = "/root/ChatBotLLM/acne.jpg"
-
-        with open(image_path,"rb") as img_file:
-
-           
-            image_prompt = "Check for any medical abnormalities in this image."
-            vision_output = vision_service.process_request(
-                image_file=image_path,
-                prompt=question_output +" "+ image_prompt
-            )
-            print("\nVision Model Output:\n", vision_output)
-    except Exception as e:
-        raise LlmAppException(e)         
+@app.on_event("shutdown")
+async def shutdown_event():
+    print("API shutting down!")

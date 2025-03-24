@@ -1,5 +1,5 @@
 from app.models import QuestionAnalysisModel
-from app.logging import logging
+from app.log import logging
 from app.exceptions import LlmAppException,ModelInferencingError
 import sys
 from app.instructions import QUESTIONS_INSTRUCTIONS

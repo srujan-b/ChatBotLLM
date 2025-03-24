@@ -8,7 +8,7 @@ import numpy as np
 import sys
 from app.constants import  VISION_MODEL_NAME
 from app.exceptions import LlmAppException
-from app.logging import logging
+from app.log import logging
 
 class VisionModel:
 

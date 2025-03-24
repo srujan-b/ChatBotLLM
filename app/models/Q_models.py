@@ -2,7 +2,7 @@ from langchain_ollama import ChatOllama
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema.messages import HumanMessage, SystemMessage
 from app.constants import Q_MODEL_NAME
-from app.logging import logging
+from app.log import logging
 from app.exceptions import LlmAppException
 import sys
 
