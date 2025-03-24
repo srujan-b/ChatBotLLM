@@ -11,7 +11,7 @@ RUN curl -fsSL https://ollama.com/install.sh | sh
 WORKDIR /chatbotapp
 
 # Copy dependencies
-COPY requirements.txt
+COPY requirements.txt .
 
 #Install python deps
 RUN pip install --no-cache-dir -r requirements.txt
